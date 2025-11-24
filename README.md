@@ -120,9 +120,8 @@ VITE_appId=XXXX
 
 ---
 
-## 📸 **Screenshots**
 
-(Add later)
+
 
 ---
 
