@@ -1,29 +1,39 @@
-import React, { use } from "react";
-import { Link, Navigate } from "react-router";
+import React, { use, useState } from "react";
+import { Link, Navigate, useLocation, useNavigate } from "react-router";
 import { AuthContext } from "../Provider/AuthProvider";
 
 const Login = () => {
+  const [errorMsg, setErrorMsg] = useState("");
   const { SignIn } = use(AuthContext);
+  const location = useLocation();
+  const navigate = useNavigate();
+  // console.log(location);
+
   const handleLogin = (e) => {
     e.preventDefault();
     const email = e.target.email.value;
     const password = e.target.password.value;
-    console.log(email, password);
-    SignIn(email,password)
-
+    // console.log(email, password);
+    SignIn(email, password)
       .then((result) => {
         const user = result.user;
-        console.log(user);
-         
+        //check validation of gmail verification
+        if(!result.user.emailVerified){
+          alert("please verify your email address");
+          return;
+        }
+        // console.log(user);
+        navigate(`${location.state ? location.state : "/"}`);
       })
       .catch((error) => {
         const errorCode = error.code;
-        const errorMessage = error.message;
-        alert(errorCode, errorMessage);
+        // const errorMessage = error.message;
+        // alert(errorCode, errorMessage);
+        setErrorMsg(errorCode);
       });
   };
   return (
-    <div className="flex justify-center min-h-screen items-center">
+    <div className="flex justify-center mt-12 items-center">
       <div className="card bg-base-100 w-full max-w-sm shrink-0 shadow-2xl py-5">
         <form onSubmit={handleLogin} className="card-body">
           <h2 className="text-2xl text-center">Login your account</h2>
@@ -49,12 +59,18 @@ const Login = () => {
             <div>
               <a className="link link-hover">Forgot password?</a>
             </div>
+
+            {errorMsg && <p className="text-red-600 text-[10px]">{errorMsg}</p>}
+
             <button type="submit" className="btn btn-neutral mt-4">
               Login
             </button>
-            <h2 className="font-semibold text-center pt-5 text-bold">
+            <h2 className="text-center pt-5  text-[15px]">
               Don't Have An Account ?{" "}
-              <Link className="text-secondary" to="/auth/register">
+              <Link
+                className="text-sky-700 underline font-bold"
+                to="/auth/register"
+              >
                 Register
               </Link>
             </h2>

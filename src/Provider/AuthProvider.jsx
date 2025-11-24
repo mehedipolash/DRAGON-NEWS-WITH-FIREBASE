@@ -6,16 +6,16 @@ import {
   onAuthStateChanged,
   signInWithEmailAndPassword,
   signOut,
+  updateProfile,
 } from "firebase/auth";
 
 export const AuthContext = createContext();
 
 const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
-
   const [loading, setLoading] = useState(true);
 
-  console.log(user, loading);
+  // console.log(user, loading);
 
   // Initialize Firebase Authentication and get a reference to the service
   const auth = getAuth(app);
@@ -33,6 +33,10 @@ const AuthProvider = ({ children }) => {
     setLoading(true);
     return signInWithEmailAndPassword(auth, email, password);
   };
+
+  const updateUser=(updatedData)=>{
+          return updateProfile(auth.currentUser,updatedData)
+  }
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
@@ -53,6 +57,8 @@ const AuthProvider = ({ children }) => {
     SignIn,
     loading,
     setLoading,
+    updateUser,
+    auth
   };
   return <AuthContext value={authData}>{children}</AuthContext>;
 };

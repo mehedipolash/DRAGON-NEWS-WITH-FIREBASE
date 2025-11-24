@@ -3,7 +3,6 @@ import { Link, NavLink } from "react-router";
 import userIcon from "../assets/userIcon.png";
 import { AuthContext } from "../Provider/AuthProvider";
 
-
 const Navbar = () => {
   const { user, Logout } = use(AuthContext);
 
@@ -29,10 +28,14 @@ const Navbar = () => {
       </div>
 
       <div className="login-btn flex gap-5">
-        <img src={userIcon} alt="" />
+        {/* <img src={userIcon} alt="" /> */}
+        <img
+          className="w-12 rounded-full"
+          src={`${user ? user.photoURL : userIcon}`}
+          alt=""
+        />
 
         {user ? (
-          // ✅ FIXED: Removed nested Link
           <button onClick={handleLogout} className="btn btn-primary px-10">
             Logout
           </button>

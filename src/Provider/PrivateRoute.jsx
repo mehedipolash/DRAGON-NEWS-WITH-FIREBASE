@@ -1,14 +1,16 @@
 import React, { use } from "react";
 import { AuthContext } from "./AuthProvider";
-import { Navigate } from "react-router";
+import { Navigate, useLocation } from "react-router";
 import Loading from "../pages/Loading";
 
 const PrivateRoute = ({ children }) => {
-  const {user,loading} = use(AuthContext);
+  const { user, loading } = use(AuthContext);
   // console.log(user);
-   
-  if(loading){
-    return <Loading></Loading>
+  const location = useLocation();
+  // console.log(location);
+
+  if (loading) {
+    return <Loading></Loading>;
   }
 
   // If user exists and has email, return children
@@ -17,14 +19,12 @@ const PrivateRoute = ({ children }) => {
   }
 
   // If no user, navigate to login page
-  return <Navigate to="/auth/login" />;
+  return <Navigate state={location.pathname} to="/auth/login" />;
 };
 
 export default PrivateRoute;
 
-
 // correct also
-
 
 /* import React, { use } from "react";
 import { AuthContext } from "../Provider/AuthProvider";
@@ -46,7 +46,7 @@ const PrivateRoute = ({ children }) => {
 
 export default PrivateRoute; */
 
-// 
+//
 
 /* import React, { use } from "react";
 import { AuthContext } from "../Provider/AuthProvider";
