@@ -1,14 +1,16 @@
-import React, { use, useState } from "react";
+import React, { use, useRef, useState } from "react";
 import { Link, Navigate, useLocation, useNavigate } from "react-router";
 import { AuthContext } from "../Provider/AuthProvider";
+import { sendPasswordResetEmail } from "firebase/auth";
 
 const Login = () => {
   const [errorMsg, setErrorMsg] = useState("");
-  const { SignIn } = use(AuthContext);
+  const { SignIn, auth } = use(AuthContext);
   const location = useLocation();
   const navigate = useNavigate();
   // console.log(location);
 
+  const emailRef = useRef();
   const handleLogin = (e) => {
     e.preventDefault();
     const email = e.target.email.value;
@@ -18,7 +20,7 @@ const Login = () => {
       .then((result) => {
         const user = result.user;
         //check validation of gmail verification
-        if(!result.user.emailVerified){
+        if (!result.user.emailVerified) {
           alert("please verify your email address");
           return;
         }
@@ -30,6 +32,22 @@ const Login = () => {
         // const errorMessage = error.message;
         // alert(errorCode, errorMessage);
         setErrorMsg(errorCode);
+      });
+  };
+
+  const handleForgetPassword = () => {
+    console.log(emailRef.current.value);
+    const email = emailRef.current.value;
+
+    setErrorMsg("");
+
+    // send password reset email
+    sendPasswordResetEmail(auth, email)
+      .then(() => {
+        alert("a password reset email sent .please check your inbox.");
+      })
+      .catch((error) => {
+        setErrorMsg(error.message);
       });
   };
   return (
@@ -45,6 +63,7 @@ const Login = () => {
               className="input"
               placeholder="Email"
               name="email"
+              ref={emailRef}
               required
             />
             {/* password */}
@@ -56,8 +75,8 @@ const Login = () => {
               name="password"
               required
             />
-            <div>
-              <a className="link link-hover">Forgot password?</a>
+            <div onClick={handleForgetPassword}>
+              <a className="link link-hover text-[15px]">Forgot password?</a>
             </div>
 
             {errorMsg && <p className="text-red-600 text-[10px]">{errorMsg}</p>}
