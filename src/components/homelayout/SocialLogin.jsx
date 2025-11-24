@@ -4,11 +4,14 @@ import { FcGoogle } from "react-icons/fc";
 import { AuthContext } from "../../Provider/AuthProvider";
 
 const SocialLogin = () => {
-  const { googleSignUp } = use(AuthContext);
+  const { googleSignUp,githubSignUp } = use(AuthContext);
   const handleGoogleSignUp = () => {
     googleSignUp();
   };
-  
+  const handleGithubSinup = () => {
+    githubSignUp();
+  };
+
   return (
     <div>
       <h2 className="font-bold mb-5">Login With</h2>
@@ -19,7 +22,10 @@ const SocialLogin = () => {
         >
           <FcGoogle size={24} /> Login with Google
         </button>
-        <button className="btn btn-outline btn-primary w-full">
+        <button
+          onClick={handleGithubSinup}
+          className="btn btn-outline btn-primary w-full"
+        >
           <FaGithub size={24} /> Login with Github
         </button>
       </div>
