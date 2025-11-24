@@ -28,12 +28,12 @@ const Register = () => {
     createUser(email, password)
       .then((result) => {
         const user = result.user;
-
+          //  email verification
          sendEmailVerification(auth.currentUser).then(() => {
           setSuccess(true);
           alert("Verification email sent! Please check your email");
         });
-
+              // update profile
           updateUser({ displayName: name, photoURL: photo }).then(() => {
           setUser({ ...user, displayName: name, photoURL: photo });
           navigate("/auth/login");
