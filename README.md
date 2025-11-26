@@ -124,8 +124,9 @@ VITE_appId=XXXX
 
 
 ---
-## 🤝 **Live link**
-[](https://dragon-news-breaking-41c10.web.app/)
+## 🤝 Live link
+[Live Website](https://dragon-news-breaking-41c10.web.app/)
+
 
 ---
 
